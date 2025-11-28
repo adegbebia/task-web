@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Liste des tâches</title>
+</head>
+<body>
+  <h1>Liste des tâches</h1>
+  <a href="/tasks/create"> Nouvelle tâche</a>
+
+  <ul>
+    @each(task in tasks)
+      <li>
+        <strong>{{ task.titre }}</strong> — {{ task.statut }}
+        <a href="/tasks/{{ task.id }}/edit">Modifier</a>
+        <form action="/tasks/{{ task.id }}/delete" method="post" style="display:inline">
+          <button type="submit">Supprimer</button>
+        </form>
+      </li>
+    @endeach
+  </ul>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<h1>Créer une nouvelle tâche</h1>
+
+<form action="{{ route('tasks.store') }}" method="POST">
+  {{ csrfField() }}
+
+  <div>
+    <label for="titre">Titre :</label>
+    <input type="text" name="titre" id="titre" required>
+  </div>
+
+  <div>
+    <label for="description">Description :</label>
+    <textarea name="description" id="description" required></textarea>
+  </div>
+
+  <div>
+    <label for="statut">Statut :</label>
+    <select name="statut" id="statut" required>
+      <option value="à faire">À faire</option>
+      <option value="en cours">En cours</option>
+      <option value="terminée">Terminée</option>
+    </select>
+  </div>
+
+  <!-- SUPPRIMER cette section - l'utilisateur est assigné automatiquement -->
+  <!--
+  <div>
+    <label for="userId">Assigné à :</label>
+    <select name="userId" id="userId" required>
+      @each(user in users)
+        <option value="{{ user.id }}">{{ user.nom }} ({{ user.email }})</option>
+      @endeach
+    </select>
+  </div>
+  -->
+
+  <button type="submit">Créer</button>
+</form>
+
+<a href="{{ route('tasks.index') }}">Retour à la liste des tâches</a>

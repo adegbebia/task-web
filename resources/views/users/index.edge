@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Liste des utilisateurs</title>
+</head>
+<body>
+  <h1>Liste des utilisateurs</h1>
+
+  <a href="/users/create">Nouvel utilisateur</a>
+
+  <table border="1" cellpadding="8" cellspacing="0" style="margin-top: 20px;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @each(user in users)
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.nom }}</td>
+          <td>{{ user.email }}</td>
+
+          <td>
+            <a href="/users/{{ user.id }}">Voir ses tâches</a> |
+            <a href="/users/{{ user.id }}/edit"> Modifier</a> |
+
+            <form action="/users/{{ user.id }}" method="POST" style="display:inline;">
+             {{ csrfField() }}
+
+              <button type="submit" onclick="return confirm('Supprimer ?');">
+                 Supprimer
+              </button>
+            </form>
+          </td>
+        </tr>
+      @endeach
+    </tbody>
+  </table>
+
+</body>
+</html>

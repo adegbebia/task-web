@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Détails de {{ user.nom }}</title>
+</head>
+<body>
+  <h1>Tâches de {{ user.nom }}</h1>
+  <p>Email : {{ user.email }}</p>
+
+  <h2>Ses tâches :</h2>
+  @if(user.tasks.length > 0)
+    <ul>
+      @each(task in user.tasks)
+        <li>
+          <strong>{{ task.titre }}</strong> —{{ task.statut }}
+        </li>
+      @endeach
+    </ul>
+  @else
+    <p>Aucune tâche pour cet utilisateur.</p>
+  @endif
+
+  <a href="/users">Retour à la liste</a>
+</body>
+</html>

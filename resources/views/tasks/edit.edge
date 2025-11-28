@@ -1,0 +1,42 @@
+<h1>Modifier la tâche</h1>
+
+<form action="{{ route('tasks.update', { id: task.id }) }}" method="POST">
+
+  {{ csrfField() }}
+
+
+
+
+  <div>
+    <label for="titre">Titre :</label>
+    <input
+      type="text"
+      name="titre"
+      id="titre"
+      required
+      value="{{ task.titre }}"
+    >
+  </div>
+
+  <div>
+    <label for="description">Description :</label>
+    <textarea
+      name="description"
+      id="description"
+      required
+    >{{ task.description }}</textarea>
+  </div>
+
+  <div>
+    <label for="statut">Statut :</label>
+    <select name="statut" id="statut" required>
+      <option value="à faire" {{ task.statut == 'à faire' ? 'selected' : '' }}>À faire</option>
+      <option value="en cours" {{ task.statut == 'en cours' ? 'selected' : '' }}>En cours</option>
+      <option value="terminée" {{ task.statut == 'terminée' ? 'selected' : '' }}>Terminée</option>
+    </select>
+  </div>
+
+  <button type="submit">Enregistrer les modifications</button>
+</form>
+
+<a href="{{ route('tasks.index') }}">Retour à la liste des tâches</a>
