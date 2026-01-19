@@ -1,22 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>Liste des tâches</title>
 </head>
 <body>
   <h1>Liste des tâches</h1>
-  <a href="/tasks/create"> Nouvelle tâche</a>
-
-  <ul>
-    @each(task in tasks)
-      <li>
-        <strong>{{ task.titre }}</strong> — {{ task.statut }}
-        <a href="/tasks/{{ task.id }}/edit">Modifier</a>
-        <form action="/tasks/{{ task.id }}/delete" method="post" style="display:inline">
-          <button type="submit">Supprimer</button>
-        </form>
-      </li>
-    @endeach
-  </ul>
+  <a href="{{ route('tasks.create') }}">Nouvelle tâche</a>
+  <table border="1" cellpadding="10" cellspacing="0" style="margin-top: 20px; width: 100%;">
+    <thead>
+      <tr style="background-color: #f0f0f0;">
+        <th>ID</th>
+        <th>Titre</th>
+        <th>Description</th>
+        <th>Statut</th>
+        <th>Collaborateurs</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @each(task in tasks)
+        <tr>
+          <td>{{ task.id }}</td>
+          <td><strong>{{ task.titre }}</strong></td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.statut }}</td>
+          <td>
+            @if(task.collaborators && task.collaborators.length > 0)
+              @each(collab in task.collaborators)
+                <span>{{ collab.nom }}</span>
+              @end
+            @else
+              <em>Aucun</em>
+            @end
+          </td>
+          <td>
+            @if(task.userId === user.id || (task.collaborators && task.collaborators.some(c => c.id === user.id)))
+              <a href="{{ route('tasks.edit', { id: task.id }) }}">Modifier</a>
+              <form action="{{ route('tasks.destroy', { id: task.id }) }}" method="POST" style="display: inline;">
+                {{ csrfField() }}
+                <button type="submit" onclick="return confirm('Supprimer cette tâche ?')">
+                  Supprimer
+                </button>
+              </form>
+            @else
+              <span>Lecture seule</span>
+            @end
+          </td>
+        </tr>
+      @end
+    </tbody>
+  </table>
 </body>
 </html>

@@ -1,40 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Modifier un utilisateur</title>
+  <meta charset="utf-8">
+  <title>Modifier l'utilisateur</title>
+
 </head>
 <body>
-    <h1>Modifier l'utilisateur</h1>
+  <h1>Modifier l'utilisateur</h1>
 
-    <form method="POST" action="{{ route('users.update', { id: user.id }) }}">
-        {{ csrfField() }}
-        <!-- Méthode PUT simulée -->
-        <input type="hidden" name="_method" value="PUT">
+  <form action="{{ route('users.update', { id: user.id }) }}" method="POST">
+    {{ csrfField() }}
 
-        <div>
-            <label for="nom">Nom :</label>
-            <input type="text" id="nom" name="nom" value="{{ user.nom }}" required>
-        </div>
-        <br>
+    <div class="form-group">
+      <label for="nom">Nom :</label>
+      <input
+        type="text"
+        name="nom"
+        id="nom"
+        value="{{ user.nom }}"
+        required
+      >
+    </div>
 
-        <div>
-            <label for="email">Email :</label>
-            <input type="email" id="email" name="email" value="{{ user.email }}" required>
-        </div>
-        <br>
+    <div class="form-group">
+      <label for="email">Email :</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        value="{{ user.email }}"
+        required
+      >
+    </div>
 
-        <div>
-            <label for="password">
-                Nouveau mot de passe : <small>(laisser vide si inchangé)</small>
-            </label>
-            <input type="password" id="password" name="password" placeholder="Laisser vide si inchangé">
-        </div>
-        <br>
+    <div class="form-group">
+      <label for="password">Nouveau mot de passe :</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Laisser vide si inchangé"
+        minlength="6"
+      >
+      <small>Laissez ce champ vide pour conserver le mot de passe actuel. Si vous le modifiez, il doit contenir au moins 6 caractères.</small>
+    </div>
 
-        <button type="submit">Mettre à jour</button>
-    </form>
+    <button type="submit">Mettre à jour</button>
+  </form>
 
-    <p><a href="/users">⬅ Retour</a></p>
+  <a href="{{ route('users.index') }}" class="back-link">← Retour à la liste</a>
 </body>
 </html>

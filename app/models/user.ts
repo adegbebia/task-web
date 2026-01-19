@@ -1,8 +1,7 @@
-// app/models/user.ts
 import { DateTime } from 'luxon'
-import { BaseModel, column, beforeSave, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, beforeSave, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import hash from '@adonisjs/core/services/hash'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
+import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Task from './task.js'
 
 export default class User extends BaseModel {
@@ -18,6 +17,9 @@ export default class User extends BaseModel {
   @column({ serializeAs: null })
   declare password: string
 
+  @column()
+  declare role: string
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
@@ -31,9 +33,19 @@ export default class User extends BaseModel {
     }
   }
 
+  // Tâches créées par l'utilisateur
   @hasMany(() => Task)
   declare tasks: HasMany<typeof Task>
 
+  // Tâches où l'utilisateur est collaborateur
+  @manyToMany(() => Task, {
+    pivotTable: 'collaborators',
+    localKey: 'id',
+    pivotForeignKey: 'user_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'task_id',
+  })
+  declare collaborations: ManyToMany<typeof Task>
 
   serialize() {
     return {

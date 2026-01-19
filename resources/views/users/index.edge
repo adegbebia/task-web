@@ -30,11 +30,11 @@
             <a href="/users/{{ user.id }}">Voir ses tâches</a> |
             <a href="/users/{{ user.id }}/edit"> Modifier</a> |
 
-            <form action="/users/{{ user.id }}" method="POST" style="display:inline;">
-             {{ csrfField() }}
-
-              <button type="submit" onclick="return confirm('Supprimer ?');">
-                 Supprimer
+            {{-- Formulaire de suppression corrigé --}}
+            <form action="{{ route('users.destroy', { id: user.id }) }}" method="POST" style="display:inline;">
+              {{ csrfField() }}
+              <button type="submit" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?');">
+                Supprimer
               </button>
             </form>
           </td>
